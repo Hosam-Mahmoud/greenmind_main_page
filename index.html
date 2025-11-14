@@ -1,0 +1,1517 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GreenMind - Intelligent Waste Management System | Huawei Developer Competition</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- AOS Animation -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Custom CSS -->
+    <style>
+        :root {
+            --primary-color: #28a745;
+            --secondary-color: #3cb371;
+            --accent-color: #17a2b8;
+            --dark-color: #2c3e50;
+            --light-color: #f8f9fa;
+            --huawei-red: #ff0000;
+            --huawei-gradient: linear-gradient(135deg, #ff0000, #ff6b6b, #ff4757);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            color: #333;
+            background-color: #f8f9fa;
+            overflow-x: hidden;
+        }
+        
+        /* Header Styles */
+        .navbar {
+
+
+            background: linear-gradient(90deg, #000000, #0da651);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 15px 0;
+            transition: all 0.3s ease;
+        }
+        
+        .navbar-brand {
+            font-weight: 700;
+            font-size: 1.8rem;
+            color: white !important;
+            transition: all 0.3s ease;
+        }
+        
+        .navbar-brand:hover {
+            transform: scale(1.05);
+        }
+        
+        .nav-link {
+            color: rgba(255, 255, 255, 0.9) !important;
+            font-weight: 500;
+            margin: 0 10px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 50%;
+            background-color: white;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-link:hover::after {
+            width: 100%;
+            left: 0;
+        }
+        
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 120px 0;
+            position: relative;
+            overflow: hidden;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+        }
+        
+        .hero::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="rgba(255,255,255,0.1)" d="M0,192L48,197.3C96,203,192,213,288,229.3C384,245,480,267,576,250.7C672,235,768,181,864,181.3C960,181,1056,235,1152,234.7C1248,235,1344,181,1392,154.7L1440,128L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>') no-repeat bottom;
+            background-size: cover;
+        }
+        
+        /* Animated Background Particles */
+        .particles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 1;
+        }
+        
+        .particle {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            animation: float 20s infinite linear;
+        }
+        
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100vh) rotate(720deg);
+                opacity: 0;
+            }
+        }
+        
+        /* Animated Title */
+        .hero-title {
+            font-size: 5rem;
+            font-weight: 800;
+            margin-bottom: 20px;
+            background: linear-gradient(45deg, #ffffff, #e0f7fa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            animation: titleGlow 3s ease-in-out infinite alternate;
+            position: relative;
+            z-index: 2;
+        }
+        
+        @keyframes titleGlow {
+            0% {
+                text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+            }
+            100% {
+                text-shadow: 0 0 20px rgba(255, 255, 255, 0.8), 0 0 30px rgba(255, 255, 255, 0.5);
+            }
+        }
+        
+        .hero-subtitle {
+            font-size: 1.8rem;
+            font-weight: 300;
+            margin-bottom: 30px;
+            opacity: 0;
+            animation: fadeInUp 1s ease forwards 0.5s;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .hero-description {
+            font-size: 1.2rem;
+            margin-bottom: 40px;
+            opacity: 0;
+            animation: fadeInUp 1s ease forwards 0.8s;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .hero-keywords {
+            font-size: 1.1rem;
+            margin-bottom: 50px;
+            opacity: 0;
+            animation: fadeInUp 1s ease forwards 1.1s;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .keyword {
+            display: inline-block;
+            margin: 0 15px;
+            padding: 8px 20px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            transition: all 0.3s ease;
+        }
+        
+        .keyword:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .huawei-badge {
+            display: inline-block;
+            padding: 12px 30px;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 50px;
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin: 30px 0;
+            opacity: 0;
+            animation: fadeInUp 1s ease forwards 1.4s;
+            position: relative;
+            z-index: 2;
+            transition: all 0.3s ease;
+        }
+        
+        .huawei-badge:hover {
+            background: rgba(255, 255, 255, 0.25);
+            transform: scale(1.05);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+        
+        .huawei-badge i {
+            margin-right: 10px;
+            font-size: 1.3rem;
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .btn-hero {
+            padding: 15px 35px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border-radius: 50px;
+            margin: 10px;
+            transition: all 0.3s ease;
+            position: relative;
+            z-index: 2;
+            opacity: 0;
+            animation: fadeInUp 1s ease forwards 1.7s;
+            overflow: hidden;
+        }
+        
+        .btn-hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s ease;
+        }
+        
+        .btn-hero:hover::before {
+            left: 100%;
+        }
+        
+        .btn-primary-custom {
+            background-color: white;
+            color: var(--primary-color);
+            border: none;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .btn-primary-custom:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            background-color: #f8f9fa;
+        }
+        
+        .btn-outline-custom {
+            background-color: transparent;
+            color: white;
+            border: 2px solid white;
+        }
+        
+        .btn-outline-custom:hover {
+            background-color: white;
+            color: var(--primary-color);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+        
+        /* Section Styles */
+        .section {
+            padding: 80px 0;
+        }
+        
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--dark-color);
+            margin-bottom: 50px;
+            text-align: center;
+            position: relative;
+        }
+        
+        .section-title::after {
+            content: "";
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            border-radius: 2px;
+        }
+        
+        /* How It Works Section */
+        .how-it-works {
+            background-color: white;
+        }
+        
+        .step-box {
+            text-align: center;
+            padding: 30px 20px;
+            border-radius: 15px;
+            background-color: white;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+            height: 100%;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .step-box::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+        
+        .step-box:hover::before {
+            transform: scaleX(1);
+        }
+        
+        .step-box:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .step-icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border-radius: 50%;
+            font-size: 2rem;
+            transition: all 0.3s ease;
+        }
+        
+        .step-box:hover .step-icon {
+            transform: scale(1.1) rotate(5deg);
+        }
+        
+        .step-number {
+            top: -15px;
+            left: -15px;
+            width: 40px;
+            height: 40px;
+            background-color: var(--accent-color);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* Dashboard Preview Section */
+        .dashboard-preview {
+            background-color: #f1f9f2;
+        }
+        
+        .dashboard-mockup {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            padding: 40px;
+            text-align: center;
+            min-height: 400px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .dashboard-mockup::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(40, 167, 69, 0.05), transparent);
+            animation: shimmer 3s infinite;
+        }
+        
+        @keyframes shimmer {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+        
+        .dashboard-icon {
+            font-size: 5rem;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+                opacity: 1;
+            }
+            50% {
+                transform: scale(1.05);
+                opacity: 0.8;
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+        
+        .dashboard-caption {
+            font-style: italic;
+            color: #6c757d;
+            margin-top: 15px;
+        }
+        
+        /* Features Section */
+        .features {
+            background-color: white;
+        }
+        
+        .feature-box {
+            text-align: center;
+            padding: 30px 20px;
+            border-radius: 15px;
+            background-color: white;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+            height: 100%;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .feature-box::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(40, 167, 69, 0.05), rgba(60, 179, 113, 0.05));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .feature-box:hover::before {
+            opacity: 1;
+        }
+        
+        .feature-box:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .feature-icon {
+            width: 70px;
+            height: 70px;
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border-radius: 50%;
+            font-size: 1.8rem;
+            transition: all 0.3s ease;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .feature-box:hover .feature-icon {
+            transform: scale(1.1) rotate(5deg);
+        }
+        
+        /* Huawei Integration Section */
+        .huawei-integration {
+            background-color: #f0fff4;
+        }
+        
+        .huawei-service {
+            background-color: white;
+            border-radius: 10px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .huawei-service::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(180deg, var(--primary-color), var(--secondary-color));
+            transform: scaleY(0);
+            transition: transform 0.3s ease;
+        }
+        
+        .huawei-service:hover::before {
+            transform: scaleY(1);
+        }
+        
+        .huawei-service:hover {
+            transform: translateX(5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .huawei-service-icon {
+            font-size: 2rem;
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            transition: all 0.3s ease;
+        }
+        
+        .huawei-service:hover .huawei-service-icon {
+            transform: scale(1.1);
+        }
+        
+        /* Impact Section */
+        .impact {
+            background-color: white;
+        }
+        
+        .impact-box {
+            text-align: center;
+            padding: 30px 20px;
+            border-radius: 15px;
+            background-color: white;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+            height: 100%;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .impact-box::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: radial-gradient(circle, rgba(40, 167, 69, 0.1), transparent);
+            transition: all 0.5s ease;
+            transform: translate(-50%, -50%);
+        }
+        
+        .impact-box:hover::before {
+            width: 200%;
+            height: 200%;
+        }
+        
+        .impact-box:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .impact-number {
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        /* Team Section */
+        .team {
+            background-color: #f1f9f2;
+        }
+        
+        .team-member {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .team-avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            margin: 0 auto 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .team-member:hover .team-avatar {
+            transform: scale(1.05);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+        
+        .team-member h4 {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        
+        .team-member p {
+            color: #6c757d;
+            margin-bottom: 10px;
+        }
+        
+        .social-links a {
+            display: inline-block;
+            width: 36px;
+            height: 36px;
+            background-color: var(--primary-color);
+            color: white;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 36px;
+            margin: 0 5px;
+            transition: all 0.3s ease;
+        }
+        
+        .social-links a:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* Footer */
+        footer {
+            background-color: var(--dark-color);
+            color: white;
+            padding: 50px 0 20px;
+        }
+        
+        .footer-logo {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: white;
+        }
+        
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.7);
+            display: block;
+            margin-bottom: 10px;
+            transition: all 0.3s ease;
+        }
+        
+        .footer-links a:hover {
+            color: white;
+            transform: translateX(5px);
+        }
+        
+        .copyright {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            margin-top: 30px;
+            padding-top: 20px;
+            text-align: center;
+            color: rgba(255, 255, 255, 0.7);
+        }
+        
+        /* Enhanced Competition Badge */
+        .competition-badge {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: var(--huawei-gradient);
+            color: white;
+            padding: 18px 30px;
+            border-radius: 60px;
+            box-shadow: 0 8px 25px rgba(255, 0, 0, 0.3), 0 0 0 0 rgba(255, 0, 0, 0.7);
+            font-weight: 700;
+            font-size: 1.1rem;
+            z-index: 1000;
+            transform: rotate(-3deg);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            animation: badgeEntrance 1s ease-out, badgePulse 2.5s infinite 1s, badgeFloat 4s ease-in-out infinite;
+
+            backdrop-filter: blur(10px);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+        }
+        
+        @keyframes badgeEntrance {
+            0% {
+                transform: rotate(-3deg) scale(0) translateY(100px);
+                opacity: 0;
+            }
+            50% {
+                transform: rotate(5deg) scale(1.1) translateY(-20px);
+            }
+            100% {
+                transform: rotate(-3deg) scale(1) translateY(0);
+                opacity: 1;
+            }
+        }
+        
+        @keyframes badgePulse {
+            0% {
+                box-shadow: 0 8px 25px rgba(255, 0, 0, 0.3), 0 0 0 0 rgba(255, 0, 0, 0.7);
+            }
+            70% {
+                box-shadow: 0 8px 25px rgba(255, 0, 0, 0.3), 0 0 0 15px rgba(255, 0, 0, 0);
+            }
+            100% {
+                box-shadow: 0 8px 25px rgba(255, 0, 0, 0.3), 0 0 0 0 rgba(255, 0, 0, 0);
+            }
+        }
+        
+        @keyframes badgeFloat {
+            0%, 100% {
+                transform: rotate(-3deg) translateY(0);
+            }
+            50% {
+                transform: rotate(2deg) translateY(-10px);
+            }
+        }
+        
+        .competition-badge:hover {
+            transform: rotate(0deg) scale(1.08) translateY(-5px);
+            box-shadow: 0 15px 35px rgba(255, 0, 0, 0.4), 0 0 0 0 rgba(255, 0, 0, 0.7);
+            border-color: rgba(255, 255, 255, 0.5);
+        }
+        
+        .competition-badge::before {
+            content: '';
+            position: absolute;
+            top: -5px;
+            left: -5px;
+            right: -5px;
+            bottom: -5px;
+            background: linear-gradient(45deg, #ff0000, #ff6b6b, #ff4757, #ff0000);
+            border-radius: 60px;
+            z-index: -1;
+            opacity: 0.8;
+        }
+        
+        @keyframes borderRotate {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+        
+        .competition-badge i {
+            font-size: 1.4rem;
+            animation: iconSpin 3s linear infinite;
+        }
+        
+        @keyframes iconSpin {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+        
+        .badge-text {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            line-height: 1.2;
+        }
+        
+        .badge-main {
+            font-size: 1.1rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .badge-sub {
+            font-size: 0.8rem;
+            font-weight: 500;
+            opacity: 0.9;
+            text-transform: capitalize;
+        }
+        
+        /* Mobile Badge */
+        .mobile-badge {
+            display: none;
+            position: fixed;
+            bottom: 15px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--huawei-gradient);
+            color: white;
+            padding: 12px 25px;
+            border-radius: 50px;
+            box-shadow: 0 5px 20px rgba(255, 0, 0, 0.3);
+            font-weight: 600;
+            font-size: 0.9rem;
+            z-index: 1000;
+            animation: mobileBadgeEntrance 1s ease-out, mobileBadgePulse 2.5s infinite 1s;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(10px);
+            text-align: center;
+        }
+        
+        @keyframes mobileBadgeEntrance {
+            0% {
+                transform: translateX(-50%) scale(0) translateY(100px);
+                opacity: 0;
+            }
+            100% {
+                transform: translateX(-50%) scale(1) translateY(0);
+                opacity: 1;
+            }
+        }
+        
+        @keyframes mobileBadgePulse {
+            0% {
+                box-shadow: 0 5px 20px rgba(255, 0, 0, 0.3);
+            }
+            70% {
+                box-shadow: 0 5px 20px rgba(255, 0, 0, 0.3), 0 0 0 10px rgba(255, 0, 0, 0);
+            }
+            100% {
+                box-shadow: 0 5px 20px rgba(255, 0, 0, 0.3);
+            }
+        }
+        
+        /* Responsive */
+        @media (max-width: 1200px) {
+            .hero-title {
+                font-size: 4rem;
+            }
+            
+            .section-title {
+                font-size: 2.2rem;
+            }
+            
+            .competition-badge {
+                padding: 16px 28px;
+                font-size: 1rem;
+            }
+        }
+        
+        @media (max-width: 992px) {
+            .hero-title {
+                font-size: 3.5rem;
+            }
+            
+            .hero-subtitle {
+                font-size: 1.5rem;
+            }
+            
+            .hero-description {
+                font-size: 1.1rem;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+            
+            .section {
+                padding: 60px 0;
+            }
+            
+            .competition-badge {
+                padding: 14px 26px;
+                font-size: 0.95rem;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .hero {
+                padding: 100px 0;
+            }
+            
+            .hero-title {
+                font-size: 3rem;
+            }
+            
+            .hero-subtitle {
+                font-size: 1.3rem;
+            }
+            
+            .hero-description {
+                font-size: 1rem;
+            }
+            
+            .hero-keywords {
+                font-size: 1rem;
+            }
+            
+            .keyword {
+                margin: 5px;
+                padding: 6px 15px;
+                font-size: 0.9rem;
+            }
+            
+            .section-title {
+                font-size: 1.8rem;
+            }
+            
+            .section {
+                padding: 50px 0;
+            }
+            
+            .competition-badge {
+                display: none;
+            }
+            
+            .mobile-badge {
+                display: block;
+            }
+            
+            .dashboard-icon {
+                font-size: 4rem;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .hero {
+                padding: 80px 0;
+            }
+            
+            .hero-title {
+                font-size: 2.5rem;
+            }
+            
+            .hero-subtitle {
+                font-size: 1.2rem;
+            }
+            
+            .section-title {
+                font-size: 1.6rem;
+            }
+            
+            .section {
+                padding: 40px 0;
+            }
+            
+            .btn-hero {
+                padding: 12px 25px;
+                font-size: 1rem;
+                margin: 5px;
+            }
+            
+            .step-icon, .feature-icon {
+                width: 60px;
+                height: 60px;
+                font-size: 1.5rem;
+            }
+            
+            .team-avatar {
+                width: 100px;
+                height: 100px;
+                font-size: 2.5rem;
+            }
+            
+            .impact-number {
+                font-size: 2.5rem;
+            }
+            
+            .dashboard-icon {
+                font-size: 3rem;
+            }
+            
+            .mobile-badge {
+                padding: 10px 20px;
+                font-size: 0.85rem;
+                bottom: 10px;
+            }
+        }
+        
+        @media (max-width: 400px) {
+            .hero-title {
+                font-size: 2rem;
+            }
+            
+            .section-title {
+                font-size: 1.4rem;
+            }
+            
+            .navbar-brand {
+                font-size: 1.5rem;
+            }
+            
+            .mobile-badge {
+                padding: 8px 16px;
+                font-size: 0.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="#home">
+                <i class="fas fa-leaf me-2"></i>GreenMind
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#home">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#how-it-works">How It Works</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#dashboard">Dashboard</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#features">Features</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#huawei">Huawei Integration</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#team">Team</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#contact">Contact</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="particles" id="particles"></div>
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-12 text-center">
+                    <h1 class="hero-title">GreenMind</h1>
+                    <p class="hero-subtitle">Intelligent Waste Management System</p>
+                    <p class="hero-description">Using IoT & Huawei Cloud Technology</p>
+                    <div class="hero-keywords">
+                        <span class="keyword"><i class="fas fa-chart-line me-2"></i>Real-time monitoring</span>
+                        <span class="keyword"><i class="fas fa-bell me-2"></i>Auto alerts</span>
+                        <span class="keyword"><i class="fas fa-cloud me-2"></i>Scalable with Huawei Cloud</span>
+                    </div>
+                    <div class="huawei-badge">
+                        <i class="fas fa-cloud"></i>
+                        Powered by Huawei Cloud
+                    </div>
+                    <div class="mt-4">
+                        <a href="#demo" class="btn btn-hero btn-primary-custom" data-bs-toggle="modal" data-bs-target="#demoModal">
+                            <i class="fas fa-play me-2"></i>Watch Demo
+                        </a>
+                        <a href="#dashboard" class="btn btn-hero btn-outline-custom">
+                            <i class="fas fa-tachometer-alt me-2"></i>View Dashboard
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section id="how-it-works" class="section how-it-works">
+        <div class="container">
+            <h2 class="section-title" data-aos="fade-up">How It Works</h2>
+            <div class="row">
+                <div class="col-lg-4 col-md-6 mb-4" data-aos="fade-up" data-aos-delay="100">
+                    <div class="step-box position-relative">
+                        <div class="step-number">1</div>
+                        <div class="step-icon">
+                            <i class="fas fa-ruler-vertical"></i>
+                        </div>
+                        <h4>Measure</h4>
+                        <p>Ultrasonic sensors measure the fill level of bins in real time with high accuracy.</p>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 mb-4" data-aos="fade-up" data-aos-delay="200">
+                    <div class="step-box position-relative">
+                        <div class="step-number">2</div>
+                        <div class="step-icon">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                        </div>
+                        <h4>Send</h4>
+                        <p>Data is sent securely via NodeMCU to our cloud API and database for processing.</p>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 mb-4" data-aos="fade-up" data-aos-delay="300">
+                    <div class="step-box position-relative">
+                        <div class="step-number">3</div>
+                        <div class="step-icon">
+                            <i class="fas fa-bell"></i>
+                        </div>
+                        <h4>Act</h4>
+                        <p>Dashboard updates bin status and triggers alerts when bins reach capacity.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Dashboard Preview Section -->
+    <section id="dashboard" class="section dashboard-preview">
+        <div class="container">
+            <h2 class="section-title" data-aos="fade-up">Live Dashboard Preview</h2>
+            <div class="row align-items-center">
+                <div class="col-lg-12" data-aos="fade-up">
+                    <div class="dashboard-mockup">
+                        <div class="dashboard-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <h3>Comprehensive Waste Management</h3>
+                        <p class="mt-3">Our intuitive dashboard provides real-time insights into waste management across all your bins</p>
+                        <ul class="list-unstyled mt-4">
+                            <li class="mb-3"><i class="fas fa-check-circle text-success me-2"></i>Real-time bin status monitoring</li>
+                            <li class="mb-3"><i class="fas fa-check-circle text-success me-2"></i>Historical data and analytics</li>
+                            <li class="mb-3"><i class="fas fa-check-circle text-success me-2"></i>Automated alerts for collection</li>
+                            <li class="mb-3"><i class="fas fa-check-circle text-success me-2"></i>Route optimization for collection trucks</li>
+                            <li class="mb-3"><i class="fas fa-check-circle text-success me-2"></i>Multi-location management</li>
+                        </ul>
+                        <p class="dashboard-caption">Demo running locally. Production version planned on Huawei ECS + RDS.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="section features">
+        <div class="container">
+            <h2 class="section-title" data-aos="fade-up">Key Features</h2>
+            <div class="row">
+                <div class="col-lg-4 col-md-6 mb-4" data-aos="fade-up" data-aos-delay="100">
+                    <div class="feature-box">
+                        <div class="feature-icon">
+                            <i class="fas fa-database"></i>
+                        </div>
+                        <h4>Real-time Data</h4>
+                        <p>MySQL database with live updates for accurate bin status information.</p>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 mb-4" data-aos="fade-up" data-aos-delay="200">
+                    <div class="feature-box">
+                        <div class="feature-icon">
+                            <i class="fas fa-bell"></i>
+                        </div>
+                        <h4>Smart Alerts</h4>
+                        <p>Automatic notifications via Telegram/Email when bins reach capacity.</p>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 mb-4" data-aos="fade-up" data-aos-delay="300">
+                    <div class="feature-box">
+                        <div class="feature-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <h4>Analytics</h4>
+                        <p>Comprehensive reports and insights for optimized waste management.</p>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 mb-4" data-aos="fade-up" data-aos-delay="400">
+                    <div class="feature-box">
+                        <div class="feature-icon">
+                            <i class="fas fa-recycle"></i>
+                        </div>
+                        <h4>Subscription Model</h4>
+                        <p>Flexible pricing plans with hardware installation and monthly monitoring.</p>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 mb-4" data-aos="fade-up" data-aos-delay="500">
+                    <div class="feature-box">
+                        <div class="feature-icon">
+                            <i class="fas fa-leaf"></i>
+                        </div>
+                        <h4>Eco-Friendly</h4>
+                        <p>Reduce carbon footprint through optimized collection routes and schedules.</p>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 mb-4" data-aos="fade-up" data-aos-delay="600">
+                    <div class="feature-box">
+                        <div class="feature-icon">
+                            <i class="fas fa-lock"></i>
+                        </div>
+                        <h4>Secure System</h4>
+                        <p>Robust authentication and data protection for all user accounts.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Huawei Integration Section -->
+    <section id="huawei" class="section huawei-integration">
+        <div class="container">
+            <h2 class="section-title" data-aos="fade-up">Huawei Cloud Integration</h2>
+            <div class="row">
+                <div class="col-lg-12" data-aos="fade-up">
+                    <h3 class="text-center mb-5">Powered by Huawei Cloud Technologies</h3>
+                    <p class="text-center mb-5">Our system is designed to leverage full potential of Huawei Cloud services for scalability, reliability, and advanced functionality:</p>
+                    <div class="row">
+                        <div class="col-lg-6 mb-4">
+                            <div class="huawei-service">
+                                <div class="huawei-service-icon">
+                                    <i class="fas fa-network-wired"></i>
+                                </div>
+                                <h5>Huawei IoTDA</h5>
+                                <p>Device connection and telemetry management for all smart bins.</p>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 mb-4">
+                            <div class="huawei-service">
+                                <div class="huawei-service-icon">
+                                    <i class="fas fa-database"></i>
+                                </div>
+                                <h5>Huawei RDS</h5>
+                                <p>Relational database service for storing bin data and user information.</p>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 mb-4">
+                            <div class="huawei-service">
+                                <div class="huawei-service-icon">
+                                    <i class="fas fa-cloud"></i>
+                                </div>
+                                <h5>Huawei OBS</h5>
+                                <p>Object storage service for storing images, logs, and backup data.</p>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 mb-4">
+                            <div class="huawei-service">
+                                <div class="huawei-service-icon">
+                                    <i class="fas fa-brain"></i>
+                                </div>
+                                <h5>Huawei ModelArts</h5>
+                                <p>AI platform for waste type detection and predictive analytics.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-center mt-4">Currently running locally — deployment to Huawei Cloud planned in next phase.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Impact Section -->
+    <section id="impact" class="section impact">
+        <div class="container">
+            <h2 class="section-title" data-aos="fade-up">Environmental Impact</h2>
+            <div class="row">
+                <div class="col-lg-4 col-md-6 mb-4" data-aos="fade-up" data-aos-delay="100">
+                    <div class="impact-box">
+                        <div class="impact-number">30%</div>
+                        <h4>Less Fuel Used</h4>
+                        <p>Optimized collection routes reduce fuel consumption for waste management vehicles.</p>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 mb-4" data-aos="fade-up" data-aos-delay="200">
+                    <div class="impact-box">
+                        <div class="impact-number">25%</div>
+                        <h4>Improved Efficiency</h4>
+                        <p>Smart monitoring increases waste collection efficiency and reduces operational costs.</p>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 mb-4" data-aos="fade-up" data-aos-delay="300">
+                    <div class="impact-box">
+                        <div class="impact-number">100%</div>
+                        <h4>Data Transparency</h4>
+                        <p>Cloud-based system provides complete visibility into waste management operations.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Team Section -->
+    <section id="team" class="section team">
+        <div class="container">
+            <h2 class="section-title" data-aos="fade-up">Meet Our Team</h2>
+            <div class="row">
+                <div class="col-lg-4 col-md-6 mb-4" data-aos="fade-up" data-aos-delay="100">
+                    <div class="team-member">
+                        <div class="team-avatar">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <h4>Hossam Mahmoud</h4>
+                        <p>Team Leader & IoT Developer & Fullstack Developer</p>
+                      
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 mb-4" data-aos="fade-up" data-aos-delay="200">
+                    <div class="team-member">
+                        <div class="team-avatar">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <h4>Islam Hatem</h4>
+                        <p>Frontend Developer & Ai Developer</p>
+                        
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 mb-4" data-aos="fade-up" data-aos-delay="300">
+                    <div class="team-member">
+                        <div class="team-avatar">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <h4>Anas Yasser</h4>
+                        <p>UI/UX Designer & Graphic Designer</p>
+                     
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="contact">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 mb-4">
+                    <h3 class="footer-logo">
+                        <i class="fas fa-leaf me-2"></i>GreenMind
+                    </h3>
+                    <p>Intelligent Waste Management System using IoT & Huawei Cloud</p>
+                    <div class="social-links mt-3">
+                        <a href="https://www.facebook.com/share/1AoBnex4hh"><i class="fab fa-facebook-f"></i></a>
+                        <a href="https://www.instagram.com/green_mind_official?igsh=YWlocXdpY2FzdXFn"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+                <div class="col-lg-4 mb-4">
+                    <h5>Quick Links</h5>
+                    <div class="footer-links">
+                        <a href="#home">Home</a>
+                        <a href="#how-it-works">How It Works</a>
+                        <a href="#features">Features</a>
+                        <a href="#huawei">Huawei Integration</a>
+                    </div>
+                </div>
+                <div class="col-lg-4 mb-4">
+                    <h5>Contact Info</h5>
+                    <p><i class="fas fa-envelope me-2"></i>hsamsal431@gmail.com</p>
+                    <p><i class="fas fa-phone me-2"></i>+20 1025730594</p>
+                    <p><i class="fas fa-map-marker-alt me-2"></i>Cairo, Egypt</p>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2025 GreenMind. All Rights Reserved. | Huawei Developer Competition 2025</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Enhanced Competition Badge -->
+    <div class="competition-badge">
+        <i class="fas fa-trophy"></i>
+        <div class="badge-text">
+            <span class="badge-main">Huawei Developer</span>
+            <span class="badge-sub">Competition 2025</span>
+        </div>
+    </div>
+
+    <!-- Mobile Badge -->
+    <div class="mobile-badge">
+        <i class="fas fa-trophy me-2"></i>
+        Huawei Developer Competition 2025
+    </div>
+
+    <!-- Demo Modal -->
+    <div class="modal fade" id="demoModal" tabindex="-1" aria-labelledby="demoModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="demoModalLabel">GreenMind Demo</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="ratio ratio-16x9">
+                        <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="GreenMind Demo" allowfullscreen></iframe>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- AOS Animation JS -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    
+    <!-- Custom JS -->
+    <script>
+        // Initialize AOS
+        AOS.init({
+            duration: 1000,
+            once: true
+        });
+        
+        // Create floating particles
+        function createParticles() {
+            const particlesContainer = document.getElementById('particles');
+            const particleCount = 50;
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                
+                // Random size
+                const size = Math.random() * 5 + 1;
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                
+                // Random position
+                particle.style.left = `${Math.random() * 100}%`;
+                
+                // Random animation delay
+                particle.style.animationDelay = `${Math.random() * 20}s`;
+                
+                // Random animation duration
+                particle.style.animationDuration = `${Math.random() * 20 + 10}s`;
+                
+                particlesContainer.appendChild(particle);
+            }
+        }
+        
+        createParticles();
+        
+        // Navbar background on scroll
+        window.addEventListener('scroll', function() {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 50) {
+                navbar.style.backgroundColor = 'rgba(40, 167, 69, 0.95)';
+            } else {
+                navbar.style.backgroundColor = '';
+            }
+        });
+        
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+        
+        // Competition badge click handler
+        document.querySelector('.competition-badge').addEventListener('click', function() {
+            window.open('https://competition.intl.huaweicloud.com/', '_blank');
+        });
+        
+        document.querySelector('.mobile-badge').addEventListener('click', function() {
+            window.open('https://competition.intl.huaweicloud.com/', '_blank');
+        });
+    </script>
+</body>
+</html>
